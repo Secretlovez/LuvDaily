@@ -24,9 +24,9 @@ export function useWindowPosition() {
       case 'topRight':
         return appWindow.setPosition(new PhysicalPosition(monitor.size.width - windowSize.width, 0))
       case 'bottomLeft':
-        return appWindow.setPosition(new PhysicalPosition(0, monitor.size.height - windowSize.height))
+        return appWindow.setPosition(new PhysicalPosition(0, monitor.size.height - windowSize.height - 100))
       default:
-        return appWindow.setPosition(new PhysicalPosition(monitor.size.width - windowSize.width, monitor.size.height - windowSize.height))
+        return appWindow.setPosition(new PhysicalPosition(monitor.size.width - windowSize.width, monitor.size.height - windowSize.height - 100))
     }
   }
 

@@ -6,13 +6,12 @@ import Position from './components/position/index.vue'
 import ProList from '@/components/pro-list/index.vue'
 import ProListItem from '@/components/pro-list-item/index.vue'
 import { useCatStore } from '@/stores/cat'
-import { isWindows } from '@/utils/platform'
 
 const catStore = useCatStore()
 </script>
 
 <template>
-  <ProList :title="$t('pages.preference.cat.labels.modelSettings')">
+  <!-- <ProList :title="$t('pages.preference.cat.labels.modelSettings')">
     <ProListItem
       :description="$t('pages.preference.cat.hints.mirrorMode')"
       :title="$t('pages.preference.cat.labels.mirrorMode')"
@@ -45,7 +44,7 @@ const catStore = useCatStore()
         class="w-28"
       />
     </ProListItem>
-  </ProList>
+  </ProList> -->
 
   <ProList :title="$t('pages.preference.cat.labels.windowSettings')">
     <Position />

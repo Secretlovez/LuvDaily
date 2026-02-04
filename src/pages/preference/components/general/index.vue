@@ -62,9 +62,12 @@ watch(() => generalStore.app.autostart, async (value) => {
     </ProListItem>
   </ProList>
 
-  <ProList :title="$t('pages.preference.general.labels.updateSettings')">
-    <ProListItem :title="$t('pages.preference.general.labels.autoCheckUpdate')">
-      <Switch v-model:checked="generalStore.update.autoCheck" />
+  <!-- <ProList :title="$t('pages.preference.general.labels.updateSettings')">
+    <ProListItem
+      :description="$t('pages.preference.general.hints.showTaskbarIcon')"
+      :title="$t('pages.preference.general.labels.autoCheckUpdate')"
+    >
+      <Switch v-model:checked="generalStore.app.autoCheckUpdate" />
     </ProListItem>
-  </ProList>
+  </ProList> -->
 </template>

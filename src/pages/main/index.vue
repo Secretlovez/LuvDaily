@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { CountdownConfig } from '@/utils/countdown'
+
 import { convertFileSrc } from '@tauri-apps/api/core'
 import { PhysicalSize } from '@tauri-apps/api/dpi'
 import { Menu } from '@tauri-apps/api/menu'
@@ -10,6 +12,7 @@ import { round } from 'es-toolkit'
 import { nth } from 'es-toolkit/compat'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 
+import FlipClock from '@/components/countdown/FlipClock.vue'
 import { useDevice } from '@/composables/useDevice'
 import { useGamepad } from '@/composables/useGamepad'
 import { useModel } from '@/composables/useModel'
@@ -19,6 +22,7 @@ import { hideWindow, setAlwaysOnTop, setTaskbarVisibility, showWindow } from '@/
 import { useCatStore } from '@/stores/cat'
 import { useGeneralStore } from '@/stores/general.ts'
 import { useModelStore } from '@/stores/model'
+import { getCountdownConfig } from '@/utils/countdown'
 import { isImage } from '@/utils/is'
 import { join } from '@/utils/path'
 import { clearObject } from '@/utils/shared'
@@ -34,12 +38,26 @@ const resizing = ref(false)
 const backgroundImagePath = ref<string>()
 const { stickActive } = useGamepad()
 const { isMounted, setWindowPosition } = useWindowPosition()
+const countdownConfig = ref<CountdownConfig>({ startTime: '', endTime: '' })
 
-onMounted(startListening)
+// Poll for config changes
+let configPollTimer: number
+onMounted(async () => {
+  startListening()
+  const updateConfig = async () => {
+    countdownConfig.value = await getCountdownConfig()
+  }
+  await updateConfig()
+  configPollTimer = window.setInterval(updateConfig, 1000)
+})
 
-onUnmounted(handleDestroy)
+onUnmounted(() => {
+  handleDestroy()
+  if (configPollTimer) clearInterval(configPollTimer)
+})
 
 const debouncedResize = useDebounceFn(async () => {
+  if (catStore.window.mode !== 'cat') return
   await handleResize()
 
   await setWindowPosition()
@@ -48,6 +66,7 @@ const debouncedResize = useDebounceFn(async () => {
 }, 100)
 
 useEventListener('resize', () => {
+  if (catStore.window.mode !== 'cat') return
   resizing.value = true
 
   debouncedResize()
@@ -85,6 +104,7 @@ watch(() => modelStore.currentModel, async (model) => {
 }, { deep: true, immediate: true })
 
 watch([() => catStore.window.scale, modelSize], async ([scale, modelSize]) => {
+  if (catStore.window.mode !== 'cat') return
   if (!modelSize) return
 
   const { width, height } = modelSize
@@ -96,6 +116,29 @@ watch([() => catStore.window.scale, modelSize], async ([scale, modelSize]) => {
     }),
   )
 }, { immediate: true })
+
+watch(() => catStore.window.mode, (mode: string) => {
+  if (mode === 'countdown') {
+    // Default size for countdown
+    appWindow.setSize(new PhysicalSize({ width: 360, height: 80 }))
+  } else {
+    // Restore cat size - trigger model update or just let the other watcher handle it
+    // We can force trigger by re-setting scale or just calling handleResize
+    // handleResize() might be needed if model is already loaded
+    // But the other watcher on [scale, modelSize] should handle it if we touch one of them?
+    // Or just re-apply current size
+    if (modelSize.value) {
+      const { width, height } = modelSize.value
+      const scale = catStore.window.scale
+      appWindow.setSize(
+        new PhysicalSize({
+          width: Math.round(width * (scale / 100)),
+          height: Math.round(height * (scale / 100)),
+        }),
+      )
+    }
+  }
+})
 
 watch([modelStore.pressedKeys, stickActive], ([keys, stickActive]) => {
   const dirs = Object.values(keys).map((path) => {
@@ -162,20 +205,35 @@ function handleMouseMove(event: MouseEvent) {
     @mousedown="handleMouseDown"
     @mousemove="handleMouseMove"
   >
-    <img
-      v-if="backgroundImagePath"
-      class="object-cover"
-      :src="backgroundImagePath"
-    >
+    <template v-if="catStore.window.mode === 'cat'">
+      <!-- <img
+        v-if="backgroundImagePath"
+        class="object-cover"
+        :src="backgroundImagePath"
+      >
 
-    <canvas id="live2dCanvas" />
+      <canvas id="live2dCanvas" />
 
-    <img
-      v-for="path in modelStore.pressedKeys"
-      :key="path"
-      class="object-cover"
-      :src="convertFileSrc(path)"
+      <img
+        v-for="path in modelStore.pressedKeys"
+        :key="path"
+        class="object-cover"
+        :src="convertFileSrc(path)"
+      > -->
+    </template>
+
+    <div
+      v-else
+      class="size-full flex items-center justify-center rounded-xl"
+      data-tauri-drag-region
+      :style="{ backgroundColor: countdownConfig.backgroundColor || '#00000080' }"
     >
+      <FlipClock
+        v-if="countdownConfig.endTime && catStore.window.mode === 'countdown'"
+        :config="countdownConfig"
+        :target-time="countdownConfig.endTime"
+      />
+    </div>
 
     <div
       v-show="resizing"

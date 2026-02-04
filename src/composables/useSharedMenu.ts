@@ -10,29 +10,29 @@ export function useSharedMenu() {
   const catStore = useCatStore()
   const { t } = useI18n()
 
-  const getScaleMenuItems = async () => {
-    const options = range(50, 151, 25)
+  // const getScaleMenuItems = async () => {
+  //   const options = range(50, 151, 25)
 
-    const items = options.map((item) => {
-      return CheckMenuItem.new({
-        text: `${item}%`,
-        checked: catStore.window.scale === item,
-        action: () => {
-          catStore.window.scale = item
-        },
-      })
-    })
+  //   const items = options.map((item) => {
+  //     return CheckMenuItem.new({
+  //       text: `${item}%`,
+  //       checked: catStore.window.scale === item,
+  //       action: () => {
+  //         catStore.window.scale = item
+  //       },
+  //     })
+  //   })
 
-    if (!options.includes(catStore.window.scale)) {
-      items.unshift(CheckMenuItem.new({
-        text: `${catStore.window.scale}%`,
-        checked: true,
-        enabled: false,
-      }))
-    }
+  //   if (!options.includes(catStore.window.scale)) {
+  //     items.unshift(CheckMenuItem.new({
+  //       text: `${catStore.window.scale}%`,
+  //       checked: true,
+  //       enabled: false,
+  //     }))
+  //   }
 
-    return Promise.all(items)
-  }
+  //   return Promise.all(items)
+  // }
 
   const getOpacityMenuItems = async () => {
     const options = range(25, 101, 25)
@@ -65,10 +65,17 @@ export function useSharedMenu() {
         accelerator: isMac ? 'Cmd+,' : '',
         action: () => showWindow('preference'),
       }),
-      MenuItem.new({
-        text: catStore.window.visible ? t('composables.useSharedMenu.labels.hideCat') : t('composables.useSharedMenu.labels.showCat'),
+      // MenuItem.new({
+      //   text: catStore.window.visible ? t('composables.useSharedMenu.labels.hideCat') : t('composables.useSharedMenu.labels.showCat'),
+      //   action: () => {
+      //     catStore.window.visible = !catStore.window.visible
+      //   },
+      // }),
+      CheckMenuItem.new({
+        text: '倒数模式',
+        checked: catStore.window.mode === 'countdown',
         action: () => {
-          catStore.window.visible = !catStore.window.visible
+          catStore.window.mode = catStore.window.mode === 'cat' ? 'countdown' : 'cat'
         },
       }),
       PredefinedMenuItem.new({ item: 'Separator' }),
@@ -79,10 +86,10 @@ export function useSharedMenu() {
           catStore.window.passThrough = !catStore.window.passThrough
         },
       }),
-      Submenu.new({
-        text: t('composables.useSharedMenu.labels.windowSize'),
-        items: await getScaleMenuItems(),
-      }),
+      // Submenu.new({
+      //   text: t('composables.useSharedMenu.labels.windowSize'),
+      //   items: await getScaleMenuItems(),
+      // }),
       Submenu.new({
         text: t('composables.useSharedMenu.labels.opacity'),
         items: await getOpacityMenuItems(),

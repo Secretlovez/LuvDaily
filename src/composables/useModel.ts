@@ -53,9 +53,11 @@ export function useModel() {
   async function handleResize() {
     if (!modelSize.value) return
 
-    live2d.resizeModel(modelSize.value)
+    // live2d.resizeModel(modelSize.value)
 
-    const { width, height } = modelSize.value
+    // const { width, height } = modelSize.value
+    const width = 360
+    const height = 100
 
     if (round(innerWidth / innerHeight, 1) !== round(width / height, 1)) {
       await appWindow.setSize(

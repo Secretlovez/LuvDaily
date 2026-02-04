@@ -8,7 +8,7 @@
     "preference": {
       "title": "偏好设置",
       "cat": {
-        "title": "猫咪设置",
+        "title": "窗口设置",
         "labels": {
           "modelSettings": "模型设置",
           "mirrorMode": "镜像模式",

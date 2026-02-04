@@ -4,15 +4,14 @@ import { Flex } from 'ant-design-vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import About from './components/about/index.vue'
 import Cat from './components/cat/index.vue'
+import Countdown from './components/countdown/index.vue'
 import General from './components/general/index.vue'
-import Model from './components/model/index.vue'
-import Shortcut from './components/shortcut/index.vue'
 
 import UpdateApp from '@/components/update-app/index.vue'
 import { useTray } from '@/composables/useTray'
 import { useAppStore } from '@/stores/app'
+// import { useCatStore } from '@/stores/cat'
 import { useGeneralStore } from '@/stores/general'
 import { isMac } from '@/utils/platform'
 
@@ -21,6 +20,7 @@ const appStore = useAppStore()
 const current = ref(0)
 const { t } = useI18n()
 const generalStore = useGeneralStore()
+// const catStore = useCatStore()
 const appWindow = getCurrentWebviewWindow()
 
 onMounted(async () => {
@@ -31,33 +31,42 @@ watch(() => generalStore.appearance.language, () => {
   appWindow.setTitle(t('pages.preference.title'))
 }, { immediate: true })
 
-const menus = computed(() => [
-  {
-    label: t('pages.preference.cat.title'),
-    icon: 'i-solar:cat-bold',
-    component: Cat,
-  },
-  {
-    label: t('pages.preference.general.title'),
-    icon: 'i-solar:settings-minimalistic-bold',
-    component: General,
-  },
-  {
-    label: t('pages.preference.model.title'),
-    icon: 'i-solar:magic-stick-3-bold',
-    component: Model,
-  },
-  {
-    label: t('pages.preference.shortcut.title'),
-    icon: 'i-solar:keyboard-bold',
-    component: Shortcut,
-  },
-  {
-    label: t('pages.preference.about.title'),
-    icon: 'i-solar:info-circle-bold',
-    component: About,
-  },
-])
+const menus = computed(() => {
+  const list = [
+    {
+      label: t('pages.preference.cat.title'),
+      icon: 'i-solar:calendar-minimalistic-outline',
+      component: Cat,
+    },
+    {
+      label: t('pages.preference.general.title'),
+      icon: 'i-solar:settings-minimalistic-bold',
+      component: General,
+    },
+    {
+      label: '倒数设置',
+      icon: 'i-solar:clock-circle-bold',
+      component: Countdown,
+    },
+    // {
+    //   label: t('pages.preference.model.title'),
+    //   icon: 'i-solar:magic-stick-3-bold',
+    //   component: Model,
+    // },
+    // {
+    //   label: t('pages.preference.shortcut.title'),
+    //   icon: 'i-solar:keyboard-bold',
+    //   component: Shortcut,
+    // },
+    // {
+    //   label: t('pages.preference.about.title'),
+    //   icon: 'i-solar:info-circle-bold',
+    //   component: About,
+    // },
+  ]
+
+  return list
+})
 </script>
 
 <template>

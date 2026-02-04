@@ -17,6 +17,7 @@ export interface CatStore {
     radius: number
     hideOnHover: boolean
     position: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight'
+    mode: 'cat' | 'countdown'
   }
 }
 
@@ -63,6 +64,7 @@ export const useCatStore = defineStore('cat', () => {
     radius: 0,
     hideOnHover: false,
     position: 'bottomRight',
+    mode: 'countdown',
   })
 
   const init = () => {

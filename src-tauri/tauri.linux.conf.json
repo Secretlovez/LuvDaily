@@ -1,14 +1,14 @@
 {
-  "identifier": "com.ayangweb.BongoCat",
+  "identifier": "com.ayangweb.LuvDaily",
   "bundle": {
     "linux": {
       "deb": {
         "depends": ["gstreamer1.0-plugins-good"],
-        "desktopTemplate": "./BongoCat.desktop"
+        "desktopTemplate": "./LuvDaily.desktop"
       },
       "rpm": {
         "depends": ["gstreamer1-plugins-good"],
-        "desktopTemplate": "./BongoCat.desktop"
+        "desktopTemplate": "./LuvDaily.desktop"
       }
     }
   }

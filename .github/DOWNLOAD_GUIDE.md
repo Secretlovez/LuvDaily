@@ -10,15 +10,15 @@
 
 ### 手动下载
 
-- Apple Silicon：下载 `BongoCat_aarch64.dmg`
-- Intel Chip：下载 `BongoCat_x64.dmg`
+- Apple Silicon：下载 `LuvDaily_aarch64.dmg`
+- Intel Chip：下载 `LuvDaily_x64.dmg`
 
 ### Homebrew 下载
 
-1. 添加 BongoCat 的 tap 源：
+1. 添加 LuvDaily 的 tap 源：
 
 ```bash
-brew tap ayangweb/BongoCat
+brew tap Secretlovez/LuvDaily
 ```
 
 2. 安装：
@@ -38,27 +38,27 @@ brew upgrade bongo-cat
 ```bash
 brew uninstall --cask bongo-cat
 
-brew untap ayangweb/BongoCat
+brew untap Secretlovez/LuvDaily
 ```
 
 ## Windows
 
-- 64 位系统：下载 `BongoCat_x64.exe`
-- 32 位系统：下载 `BongoCat_x86.exe`
-- ARM64 架构：下载 `BongoCat_arm64.exe`
+- 64 位系统：下载 `LuvDaily_x64.exe`
+- 32 位系统：下载 `LuvDaily_x86.exe`
+- ARM64 架构：下载 `LuvDaily_arm64.exe`
 
 ## Linux(X11)
 
 ### 手动下载
 
 - 64 位系统：
-  - Debian / Ubuntu：下载 `BongoCat_amd64.deb`
-  - Fedora / RHEL：下载 `BongoCat_x86_64.rpm`
-  - 通用版本：下载 `BongoCat_amd64.AppImage`
+  - Debian / Ubuntu：下载 `LuvDaily_amd64.deb`
+  - Fedora / RHEL：下载 `LuvDaily_x86_64.rpm`
+  - 通用版本：下载 `LuvDaily_amd64.AppImage`
 - ARM64 架构：
-  - Debian / Ubuntu：下载 `BongoCat_arm64.deb`
-  - Fedora / RHEL：下载 `BongoCat_aarch64.rpm`
-  - 通用版本：下载 `BongoCat_aarch64.AppImage`
+  - Debian / Ubuntu：下载 `LuvDaily_arm64.deb`
+  - Fedora / RHEL：下载 `LuvDaily_aarch64.rpm`
+  - 通用版本：下载 `LuvDaily_aarch64.AppImage`
 
 ### AUR 下载
 

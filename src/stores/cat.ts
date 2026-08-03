@@ -17,7 +17,7 @@ export interface CatStore {
     radius: number
     hideOnHover: boolean
     position: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight'
-    mode: 'cat' | 'countdown'
+    mode: 'countdown' | 'work'
   }
 }
 
@@ -64,23 +64,26 @@ export const useCatStore = defineStore('cat', () => {
     radius: 0,
     hideOnHover: false,
     position: 'bottomRight',
-    mode: 'countdown',
+    mode: 'work',
   })
 
   const init = () => {
-    if (migrated.value) return
+    if (!migrated.value) {
+      model.mirror = mirrorMode.value
+      model.single = singleMode.value
+      model.mouseMirror = mouseMirror.value
 
-    model.mirror = mirrorMode.value
-    model.single = singleMode.value
-    model.mouseMirror = mouseMirror.value
+      window.visible = true
+      window.passThrough = penetrable.value
+      window.alwaysOnTop = alwaysOnTop.value
+      window.scale = scale.value
+      window.opacity = opacity.value
 
-    window.visible = true
-    window.passThrough = penetrable.value
-    window.alwaysOnTop = alwaysOnTop.value
-    window.scale = scale.value
-    window.opacity = opacity.value
+      migrated.value = true
+    }
 
-    migrated.value = true
+    // Older versions persisted `cat`; the desktop-cat mode has been replaced.
+    if (!['countdown', 'work'].includes(window.mode)) window.mode = 'work'
   }
 
   return {

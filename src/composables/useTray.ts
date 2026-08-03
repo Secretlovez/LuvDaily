@@ -24,7 +24,7 @@ export function useTray() {
   const { getSharedMenu } = useSharedMenu()
   const { t } = useI18n()
 
-  watch([() => catStore.window.visible, () => catStore.window.passThrough, () => generalStore.appearance.language], () => {
+  watch([() => catStore.window.visible, () => catStore.window.passThrough, () => catStore.window.mode, () => generalStore.appearance.language], () => {
     updateTrayMenu()
   })
 

@@ -20,7 +20,6 @@ const textColor = ref('#FFFFFF')
 
 onMounted(async () => {
   const config = await getCountdownConfig()
-  console.warn(config)
   if (config.startTime) startTime.value = dayjs(config.startTime)
   if (config.endTime) endTime.value = dayjs(config.endTime)
   if (config.backgroundColor) backgroundColor.value = config.backgroundColor
@@ -43,12 +42,11 @@ async function saveConfig() {
     showSeconds: showSeconds.value,
   }
   await saveCountdownConfig(config)
-  // Optionally notify main window to reload config or use store to sync
 }
 </script>
 
 <template>
-  <ProList title="倒数设置">
+  <ProList title="倒计时设置">
     <ProListItem
       description="设置倒计时的起始时间"
       title="开始时间"

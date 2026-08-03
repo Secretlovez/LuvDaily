@@ -66,13 +66,19 @@ function updateTime() {
   }
 }
 
-onMounted(() => {
+function tick() {
   updateTime()
-  timer = window.setInterval(updateTime, 1000)
+  const now = new Date()
+  const msToNextSecond = 1000 - now.getMilliseconds()
+  timer = window.setTimeout(tick, msToNextSecond)
+}
+
+onMounted(() => {
+  tick()
 })
 
 onUnmounted(() => {
-  if (timer) clearInterval(timer)
+  if (timer) clearTimeout(timer)
 })
 </script>
 

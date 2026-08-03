@@ -72,10 +72,17 @@ export function useSharedMenu() {
       //   },
       // }),
       CheckMenuItem.new({
-        text: '倒数模式',
+        text: '上班模式',
+        checked: catStore.window.mode === 'work',
+        action: () => {
+          catStore.window.mode = 'work'
+        },
+      }),
+      CheckMenuItem.new({
+        text: '倒计时模式',
         checked: catStore.window.mode === 'countdown',
         action: () => {
-          catStore.window.mode = catStore.window.mode === 'cat' ? 'countdown' : 'cat'
+          catStore.window.mode = 'countdown'
         },
       }),
       PredefinedMenuItem.new({ item: 'Separator' }),

@@ -111,11 +111,13 @@ function onAnimationEnd() {
 }
 
 .flipping .digital.front {
-  animation: flipDownFront 0.6s ease-in-out forwards;
+  animation: flipDownFront 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+  will-change: transform;
 }
 
 .flipping .digital.back {
-  animation: flipDownBack 0.6s ease-in-out forwards;
+  animation: flipDownBack 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+  will-change: transform;
 }
 
 @keyframes flipDownFront {

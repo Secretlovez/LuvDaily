@@ -4,9 +4,8 @@ import { Flex } from 'ant-design-vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import Cat from './components/cat/index.vue'
 import Countdown from './components/countdown/index.vue'
-import General from './components/general/index.vue'
+import Work from './components/work/index.vue'
 
 import UpdateApp from '@/components/update-app/index.vue'
 import { useTray } from '@/composables/useTray'
@@ -34,17 +33,12 @@ watch(() => generalStore.appearance.language, () => {
 const menus = computed(() => {
   const list = [
     {
-      label: t('pages.preference.cat.title'),
-      icon: 'i-solar:calendar-minimalistic-outline',
-      component: Cat,
+      label: '上班模式',
+      icon: 'i-solar:wallet-money-bold',
+      component: Work,
     },
     {
-      label: t('pages.preference.general.title'),
-      icon: 'i-solar:settings-minimalistic-bold',
-      component: General,
-    },
-    {
-      label: '倒数设置',
+      label: '倒计时',
       icon: 'i-solar:clock-circle-bold',
       component: Countdown,
     },

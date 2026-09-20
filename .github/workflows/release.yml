@@ -90,6 +90,9 @@ jobs:
 
       - name: Install front-end dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          # 直接在 CI 中允许这些依赖项运行构建脚本
+          pnpm_config_only_built_dependencies: '@parcel/watcher core-js esbuild simple-git-hooks unrs-resolver'
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
